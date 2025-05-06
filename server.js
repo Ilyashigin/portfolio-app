@@ -162,4 +162,3 @@ function backupDB() {
 // Вызывать перед изменением БД
 backupDB();
 
-const PORT = process.env.PORT || 3000;
