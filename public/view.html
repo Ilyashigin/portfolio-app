@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Мое портфолио</title>
+  <link href="https://fonts.googleapis.com/css2?family=Alumni+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #0466C8;
+      --primary-dark: #002855;
+      --secondary: #001233;
+      --background: #F8F9FA;
+      --text: #212529;
+      --card: #FFFFFF;
+      --accent: #979DAC;
+      --highlight: #EBECF0;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Alumni Sans', sans-serif;
+      background: var(--background);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .portfolio-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .portfolio-header {
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .portfolio-title {
+      font-size: 4rem;
+      color: var(--primary-dark);
+      margin: 0;
+      font-weight: 800;
+      letter-spacing: 1px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .portfolio-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    .portfolio-date {
+      color: var(--accent);
+      font-size: 1.2rem;
+      margin-top: 10px;
+    }
+
+    .portfolio-content {
+      display: flex;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .about-section {
+      flex: 1;
+      background: var(--card);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .about-section h2 {
+      color: var(--primary);
+      font-size: 2.2rem;
+      margin-top: 0;
+      border-bottom: 2px solid var(--highlight);
+      padding-bottom: 10px;
+    }
+
+    .about-text {
+      font-size: 1.4rem;
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+
+    .works-section {
+      flex: 2;
+      background: var(--card);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .works-section h2 {
+      color: var(--primary);
+      font-size: 2.2rem;
+      margin-top: 0;
+      border-bottom: 2px solid var(--highlight);
+      padding-bottom: 10px;
+    }
+
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 20px;
+    }
+
+    .work-item {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .work-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .work-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .file-preview {
+      padding: 25px;
+      text-align: center;
+      height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .file-icon {
+      font-size: 3.5rem;
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+
+    .file-name {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      word-break: break-word;
+    }
+
+    .download-btn {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+    }
+
+    .download-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .share-section {
+      text-align: center;
+      margin-top: 50px;
+      background: var(--card);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .share-section h3 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+
+    .url-container {
+      display: flex;
+      max-width: 600px;
+      margin: 20px auto;
+    }
+
+    #portfolio-url {
+      flex: 1;
+      padding: 12px 20px;
+      border: 2px solid var(--highlight);
+      border-radius: 50px 0 0 50px;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .copy-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0 25px;
+      border-radius: 0 50px 50px 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .copy-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .copy-btn i {
+      margin-right: 8px;
+    }
+
+    .social-share {
+      margin-top: 30px;
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--highlight);
+      color: var(--text);
+      margin: 0 10px;
+      transition: all 0.3s ease;
+      font-size: 1.3rem;
+      text-decoration: none;
+    }
+
+    .social-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .social-btn.telegram { background: #0088CC; color: white; }
+    .social-btn.whatsapp { background: #25D366; color: white; }
+    .social-btn.vk { background: #4C75A3; color: white; }
+
+    @media (max-width: 768px) {
+      .portfolio-content {
+        flex-direction: column;
+      }
+
+      .portfolio-title {
+        font-size: 2.5rem;
+      }
+
+      .works-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .url-container {
+        flex-direction: column;
+      }
+
+      #portfolio-url {
+        border-radius: 50px;
+        margin-bottom: 10px;
+      }
+
+      .copy-btn {
+        border-radius: 50px;
+        padding: 12px;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="portfolio-container">
+    <header class="portfolio-header">
+      <h1 id="portfolio-name" class="portfolio-title">Загрузка...</h1>
+      <div id="portfolio-date" class="portfolio-date"></div>
+    </header>
+
+    <div class="portfolio-content">
+      <div class="about-section">
+        <h2><i class="fas fa-user"></i> Обо мне</h2>
+        <div id="portfolio-about" class="about-text"></div>
+      </div>
+
+      <div class="works-section">
+        <h2><i class="fas fa-briefcase"></i> Мои работы</h2>
+        <div id="portfolio-works" class="works-grid"></div>
+      </div>
+    </div>
+
+    <div class="share-section">
+      <h3><i class="fas fa-share-alt"></i> Поделиться портфолио</h3>
+      <div class="url-container">
+        <input type="text" id="portfolio-url" readonly>
+        <button class="copy-btn" onclick="copyUrl()">
+          <i class="far fa-copy"></i> Копировать
+        </button>
+      </div>
+      <div class="social-share">
+        <a href="#" class="social-btn telegram" onclick="shareOn('telegram')">
+          <i class="fab fa-telegram"></i>
+        </a>
+        <a href="#" class="social-btn whatsapp" onclick="shareOn('whatsapp')">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="#" class="social-btn vk" onclick="shareOn('vk')">
+          <i class="fab fa-vk"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function loadPortfolio() {
+      const portfolioId = window.location.pathname.split('/').pop();
+
+      try {
+        const response = await fetch(`/api/portfolio/${portfolioId}`);
+        const result = await response.json();
+
+        if (result.success) {
+          displayPortfolio(result.portfolio);
+        } else {
+          showError(result.error || 'Портфолио не найдено');
+        }
+      } catch (error) {
+        showError('Ошибка загрузки: ' + error.message);
+      }
+    }
+
+    function displayPortfolio(portfolio) {
+      // Заголовок
+      document.getElementById('portfolio-name').textContent = portfolio.name;
+
+      // Дата создания
+      const date = new Date(portfolio.createdAt);
+      document.getElementById('portfolio-date').textContent =
+        `Создано: ${date.toLocaleDateString('ru-RU')}`;
+
+      // О себе
+      document.getElementById('portfolio-about').textContent =
+        portfolio.about || 'Информация не указана';
+
+      // Работы
+      const worksContainer = document.getElementById('portfolio-works');
+
+      if (portfolio.works && portfolio.works.length > 0) {
+        portfolio.works.forEach(work => {
+          const workElement = document.createElement('div');
+          workElement.className = 'work-item';
+
+          if (work.type.startsWith('image')) {
+            workElement.innerHTML = `
+              <img src="/uploads/${work.filename}" alt="${work.originalname}">
+              <div class="work-overlay">${work.originalname}</div>
+            `;
+          } else {
+            workElement.innerHTML = `
+              <div class="file-preview">
+                <div class="file-icon">
+                  <i class="far fa-file-alt"></i>
+                </div>
+                <div class="file-name">${work.originalname}</div>
+                <a href="/uploads/${work.filename}" download class="download-btn">
+                  <i class="fas fa-download"></i> Скачать
+                </a>
+              </div>
+            `;
+          }
+
+          worksContainer.appendChild(workElement);
+        });
+      } else {
+        worksContainer.innerHTML = `
+          <div class="no-works">
+            <i class="far fa-folder-open"></i>
+            <p>Работы не загружены</p>
+          </div>
+        `;
+      }
+
+      // Ссылка для поделиться
+      document.getElementById('portfolio-url').value = window.location.href;
+    }
+
+    function copyUrl() {
+      const urlInput = document.getElementById('portfolio-url');
+      urlInput.select();
+      document.execCommand('copy');
+
+      // Временное уведомление
+      const btn = document.querySelector('.copy-btn');
+      btn.innerHTML = '<i class="fas fa-check"></i> Скопировано!';
+      setTimeout(() => {
+        btn.innerHTML = '<i class="far fa-copy"></i> Копировать';
+      }, 2000);
+    }
+
+    function shareOn(social) {
+      const url = encodeURIComponent(window.location.href);
+      let shareUrl = '';
+
+      switch(social) {
+        case 'telegram':
+          shareUrl = `https://t.me/share/url?url=${url}`;
+          break;
+        case 'whatsapp':
+          shareUrl = `https://wa.me/?text=${url}`;
+          break;
+        case 'vk':
+          shareUrl = `https://vk.com/share.php?url=${url}`;
+          break;
+      }
+
+      window.open(shareUrl, '_blank', 'width=600,height=400');
+    }
+
+    function showError(message) {
+      document.getElementById('portfolio-name').textContent = 'Ошибка';
+      document.getElementById('portfolio-about').innerHTML = `
+        <div class="error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          <p>${message}</p>
+        </div>
+      `;
+    }
+
+    // Загружаем портфолио при загрузке страницы
+    document.addEventListener('DOMContentLoaded', loadPortfolio);
+  </script>
+</body>
+</html>

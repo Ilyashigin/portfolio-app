@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Создай портфолио</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Alumni+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
+<body>
+  <div class="container">
+    <header class="header animate__animated animate__fadeInDown">
+      СОЗДАЙ СВОЁ ПОРТФОЛИО
+    </header>
+
+    <div class="content-wrapper">
+      <div class="left-column animate__animated animate__fadeInLeft">
+        <div class="profile">
+          <div class="avatar" title="Нажмите для загрузки фото"></div>
+          <input type="text" id="name" placeholder="Ваше имя" class="input-name" />
+        </div>
+
+        <div class="about-container">
+          <textarea id="about" placeholder="Расскажите о себе, своих навыках и опыте..."></textarea>
+        </div>
+      </div>
+
+      <div class="works-container animate__animated animate__fadeInRight">
+        <label for="works" class="upload-label">
+          <div class="upload-icon">+</div>
+          <div class="upload-text">Перетащите сюда работы или нажмите для выбора</div>
+          <div class="file-types">(JPG, PNG, PDF, до 10MB)</div>
+        </label>
+        <input type="file" id="works" multiple hidden />
+      </div>
+    </div>
+
+    <button class="create-btn">
+      СОЗДАТЬ ПОРТФОЛИО
+    </button>
+  </div>
+
+  <script src="script.js"></script>
+
+
+<div id="file-preview-container" class="file-preview-container"></div>
+
+<script>
+  // Предпросмотр файлов перед загрузкой
+  document.getElementById('works').addEventListener('change', function(e) {
+    const previewContainer = document.getElementById('file-preview-container');
+    previewContainer.innerHTML = '';
+
+    Array.from(e.target.files).forEach(file => {
+      const previewElement = createPreviewElement(file);
+      previewContainer.appendChild(previewElement);
+    });
+  });
+
+  function createPreviewElement(file) {
+    const preview = document.createElement('div');
+    preview.className = 'file-preview-item';
+
+    if (file.type.startsWith('image/')) {
+      preview.innerHTML = `
+        <img src="${URL.createObjectURL(file)}" alt="${file.name}">
+        <div class="file-info">
+          <span>${file.name}</span>
+          <button class="remove-file" data-name="${file.name}">×</button>
+        </div>
+      `;
+    } else {
+      preview.innerHTML = `
+        <div class="file-icon">📄</div>
+        <div class="file-info">
+          <span>${file.name}</span>
+          <button class="remove-file" data-name="${file.name}">×</button>
+        </div>
+      `;
+    }
+
+    return preview;
+  }
+
+  // Удаление файлов из предпросмотра
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('remove-file')) {
+      const fileName = e.target.getAttribute('data-name');
+      removeFileFromInput(fileName);
+      e.target.closest('.file-preview-item').remove();
+    }
+  });
+
+  function removeFileFromInput(fileName) {
+    const input = document.getElementById('works');
+    const files = Array.from(input.files);
+    const remainingFiles = files.filter(f => f.name !== fileName);
+
+    const dataTransfer = new DataTransfer();
+    remainingFiles.forEach(file => dataTransfer.items.add(file));
+    input.files = dataTransfer.files;
+  }
+</script>
+
+<style>
+  .file-preview-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .file-preview-item {
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: relative;
+  }
+
+  .file-preview-item img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+
+  .file-icon {
+    font-size: 3rem;
+    text-align: center;
+    padding: 20px 0;
+    color: #0466C8;
+  }
+
+  .file-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+  }
+
+  .file-info span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.9rem;
+    max-width: 80%;
+  }
+
+  .remove-file {
+    background: #ff4444;
+    color: white;
+    border: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    padding: 0;
+    margin-left: 5px;
+  }
+
+  .works-container.drag-over {
+    background: rgba(4, 102, 200, 0.1);
+    border-color: #0466C8;
+  }
+</style>
+
+<script>
+  const dropArea = document.querySelector('.works-container');
+  dropArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropArea.classList.add('drag-over');
+  });
+
+  dropArea.addEventListener('dragleave', () => {
+    dropArea.classList.remove('drag-over');
+  });
+
+  dropArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropArea.classList.remove('drag-over');
+    const files = e.dataTransfer.files;
+    document.getElementById('works').files = files;
+
+    const previewContainer = document.getElementById('file-preview-container');
+    previewContainer.innerHTML = '';
+
+    Array.from(files).forEach(file => {
+      const previewElement = createPreviewElement(file);
+      previewContainer.appendChild(previewElement);
+    });
+  });
+</script>
+</body>
+</html>
